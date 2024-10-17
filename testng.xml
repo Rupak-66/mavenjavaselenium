@@ -3,7 +3,7 @@
 <suite name="Sauce demo suite">
     <test name="Regression">
         <packages>
-            <package name="testngpractice"/>
+            <package name="testngpracticertyrtyrt"/>
         </packages>
     </test> <!-- Test -->
 </suite>
