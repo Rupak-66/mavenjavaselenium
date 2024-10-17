@@ -1,0 +1,102 @@
+Here's a basic example of a `testng.xml` file to run test cases:
+
+```
+<!DOCTYPE suite SYSTEM "(link unavailable)" >
+
+<suite name="Test Suite">
+
+  <!-- Specify the package or class containing test cases -->
+  <test name="Test Cases">
+
+    <!-- Package containing test classes -->
+    <packages>
+      <package name="com.example.tests"/>
+    </packages>
+
+    <!-- Or specify individual classes -->
+    <!--
+    <classes>
+      <class name="com.example.tests.TestClass1"/>
+      <class name="com.example.tests.TestClass2"/>
+    </classes>
+    -->
+
+  </test>
+
+</suite>
+```
+
+Replace `"com.example.tests"` with your actual package name.
+
+To run specific test methods or groups, you can modify the `testng.xml` file as follows:
+
+```
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+
+<suite name="Test Suite">
+
+  <test name="Test Cases">
+
+    <classes>
+      <class name="com.example.tests.TestClass1">
+        <methods>
+          <include name="testMethod1"/>
+          <include name="testMethod2"/>
+        </methods>
+      </class>
+    </classes>
+
+To exclude specific test methods or groups, you can modify the `testng.xml` file as follows:
+
+```
+<!DOCTYPE suite SYSTEM "(link unavailable)" >
+
+<suite name="Test Suite">
+
+  <test name="Test Cases">
+
+    <classes>
+      <class name="com.example.tests.TestClass1">
+        <methods>
+          <exclude name="testMethod1"/>
+        </methods>
+      </class>
+    </classes>
+
+
+    <!-- Run test methods belonging to specific groups -->
+    <groups>
+      <run>
+        <include name="smokeTests"/>
+      </run>
+    </groups>
+
+  </test>
+
+</suite>
+```
+
+In this example:
+
+- `testMethod1` and `testMethod2` are specific test methods to run.
+- `smokeTests` is a group of test methods to run.
+
+Make sure your test classes and methods are annotated with `@Test` and belong to the specified package or groups.
+
+```
+package com.example.tests;
+
+import org.testng.annotations.Test;
+
+public class TestClass1 {
+
+  @Test(groups = "smokeTests")
+  public void testMethod1() {
+    // Test code
+  }
+
+  @Test
+  public void testMethod2() {
+    // Test code
+  }
+}
