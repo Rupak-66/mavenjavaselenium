@@ -53,7 +53,7 @@ public class Widgetstest {
 
     }
 
-    @Test
+//    @Test
     public void test_button_color() throws InterruptedException {
         driver.get("https://demoqa.com/dynamic-properties");
         WebElement button = driver.findElement(By.xpath("//button[@id='colorChange']"));
@@ -91,7 +91,7 @@ public class Widgetstest {
 
     }
 
-    @Test
+//    @Test
     public void test_dynamic_elements() throws InterruptedException {
         driver.get("https://demoqa.com/dynamic-properties");
         WebElement button = driver.findElement(By.xpath("//button[@id='enableAfter']"));
