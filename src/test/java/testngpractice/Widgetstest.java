@@ -1,10 +1,7 @@
 package testngpractice;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
-import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.interactions.Actions;
@@ -16,6 +13,7 @@ import org.testng.annotations.Test;
 
 import java.time.Duration;
 import java.util.Collections;
+import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
@@ -92,6 +90,55 @@ public class Widgetstest {
         }
 
     }
+
+    @Test
+    public void test_dynamic_elements() throws InterruptedException {
+        driver.get("https://demoqa.com/dynamic-properties");
+        WebElement button = driver.findElement(By.xpath("//button[@id='enableAfter']"));
+        WebElement button2 = driver.findElement(By.xpath("//button[@id='visibleAfter']"));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.elementToBeClickable(button));
+
+        wait.until(ExpectedConditions.visibilityOf(button2));
+
+
+    }
+
+
+    @Test
+    public void test_autocomplete() throws InterruptedException {
+        driver.get("https://jqueryui.com/autocomplete/");
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+
+        driver.switchTo().frame(driver.findElement(By.className("demo-frame")));
+        Thread.sleep(2000);
+
+        driver.findElement(By.xpath("//input[@id='tags']")).sendKeys("C");
+
+        String texttobeclicked = "Clojure";
+        WebElement autooptions  = driver.findElement(By.id("ui-id-1"));
+
+        try {
+            wait.until(ExpectedConditions.visibilityOf(autooptions));
+        } catch (TimeoutException e) {
+            System.out.println("No element present with the character");
+        }
+
+        List<WebElement> alloptions = autooptions.findElements(By.tagName("li"));
+
+
+        for (WebElement option : alloptions) {
+            if (option.getText().equals(texttobeclicked)) {
+                option.click();
+                break;
+            }
+        }
+
+
+        Thread.sleep(3000);
+
+    }
+
 
     @AfterTest
     public void aftertest() {
