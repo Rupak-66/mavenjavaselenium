@@ -12,9 +12,7 @@ import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 import java.time.Duration;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 public class Widgetstest {
@@ -25,10 +23,20 @@ public class Widgetstest {
     public void beforetest() {
         WebDriverManager.chromedriver().clearDriverCache().driverVersion("").setup();
         ChromeOptions ops = new ChromeOptions();
+        String downloadFilepath = "C:\\Users\\Rupak\\Desktop\\Course\\java_projects\\java_work\\src\\test\\java\\resources";
+
+        Map<String, Object> prefs = new HashMap<>();
+        prefs.put("download.default_directory", downloadFilepath);
+        prefs.put("download.prompt_for_download", false);  // Automatically download files without asking
+        prefs.put("download.directory_upgrade", true);
+        prefs.put("safebrowsing.enabled", true);  // To avoid the "Keep file" prompt for certain files
+        prefs.put("profile.default_content_settings.popups", 0);
+
+        ops.setExperimentalOption("prefs", prefs);
 
         ops.addArguments("--remote-allow-origins=*");
         ops.addArguments("--start-maximized");
-        ops.addArguments("--incognito");
+//        ops.addArguments("--incognito");
         ops.setExperimentalOption("useAutomationExtension", false);
         ops.setExperimentalOption("excludeSwitches", Collections.singletonList("enable-automation"));
         driver = new ChromeDriver(ops);
@@ -139,10 +147,24 @@ public class Widgetstest {
 
     }
 
+    @Test
+    public void test_download() throws InterruptedException {
+        driver.get("https://demoqa.com/upload-download");
 
-    @AfterTest
-    public void aftertest() {
-        driver.quit();
+        WebElement button = driver.findElement(By.xpath("//a[@id='downloadButton']"));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.elementToBeClickable(button));
+
+        button.click();
+
+        Thread.sleep(5000);
+
     }
+
+
+//    @AfterTest
+//    public void aftertest() {
+//        driver.quit();
+//    }
 
 }
