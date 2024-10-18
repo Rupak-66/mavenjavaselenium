@@ -6,7 +6,9 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
@@ -33,7 +35,7 @@ public class Widgetstest {
         prefs.put("profile.default_content_settings.popups", 0);
 
         ops.setExperimentalOption("prefs", prefs);
-
+        ops.addArguments("--disable-notifications");
         ops.addArguments("--remote-allow-origins=*");
         ops.addArguments("--start-maximized");
 //        ops.addArguments("--incognito");
@@ -158,6 +160,86 @@ public class Widgetstest {
         button.click();
 
         Thread.sleep(5000);
+
+    }
+
+    @Test
+    public void openHRM_add_user() throws InterruptedException {
+        String user_role_to_be_select = "ESS";
+        driver.get("https://opensource-demo.orangehrmlive.com/web/index.php/admin/saveSystemUser");
+        driver.findElement(By.xpath("//input[@name='username']")).sendKeys("Admin");
+        driver.findElement(By.xpath("//input[@name='password']")).sendKeys("admin123");
+        driver.findElement(By.xpath("//button[@type='submit']")).click();
+
+        driver.findElement(By.xpath("//label[contains(text(),'User Role')]/../following-sibling::div")).click();
+
+        Actions act = new Actions(driver);
+        while (true){
+            act.sendKeys(Keys.DOWN).perform();
+            Thread.sleep(500);
+            String userroleselected = driver.findElement(By.xpath("//label[contains(text(),'User Role')]/../following-sibling::div//div[@role='option' and contains(@class, 'select-option --focused')]")).getText();
+            if (userroleselected.equals(user_role_to_be_select)){
+                act.sendKeys(Keys.ENTER).perform();
+                break;
+            }
+        }
+    }
+
+    @Test(priority = 2)
+    public void test_select_class() throws Exception {
+        driver.get("https://demoqa.com/select-menu");
+
+        WebElement selectcolor = driver.findElement(By.xpath("//select[@id='oldSelectMenu']"));
+
+        Select se = new Select(selectcolor);
+
+        //se.selectByIndex(1);
+        se.selectByVisibleText("Yellow");
+        //se.selectByValue("Red");
+
+
+        //se.deselectAll();
+    }
+
+    @Test(priority = -11)
+    public void test_alerts() throws InterruptedException {
+        driver.get("https://demoqa.com/alerts");
+
+        driver.findElement(By.xpath("//button[@id='alertButton']")).click();
+
+        Thread.sleep(1000);
+        System.out.println(driver.switchTo().alert().getText());
+
+//        driver.switchTo().alert().dismiss();
+        driver.switchTo().alert().accept();
+
+    }
+
+    @Test
+    public void hover_test() throws InterruptedException {
+        driver.get("https://www.spicejet.com/");
+        Actions actions = new Actions(driver);
+        WebElement spicejet = driver.findElement(By.xpath("(//div[text()='SpiceClub'])[1]"));
+        actions.moveToElement(spicejet).build().perform();
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[contains(@href,'undefined/home#benefits')]")));
+
+        WebElement homeprogram = driver.findElement(By.xpath("//a[contains(@href,'undefined/home#benefits')]"));
+
+        String targetattr = homeprogram.getAttribute("target");
+
+        if (targetattr.equals("_blank")) {
+            Assert.assertTrue(true);
+        } else {
+            Assert.fail("Link Our Program has no attribute _blank");
+        }
+
+        homeprogram.click();
+
+//        Thread.sleep(4000);
+//
+//        actions.keyDown(Keys.CONTROL).keyDown(Keys.TAB).build().perform();
+
 
     }
 
