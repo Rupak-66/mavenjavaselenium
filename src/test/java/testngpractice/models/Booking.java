@@ -3,7 +3,6 @@ package testngpractice.models;
 public class Booking {
     private String firstname;
     private String lastname;
-
     private double totalprice;
     private boolean depositpaid;
     Bookingdates BookingdatesObject;
@@ -60,17 +59,5 @@ public class Booking {
 
     public void setAdditionalneeds(String additionalneeds) {
         this.additionalneeds = additionalneeds;
-    }
-
-    @Override
-    public String toString() {
-        return "Booking{" +
-                "firstname='" + firstname + '\'' +
-                ", lastname='" + lastname + '\'' +
-                ", totalprice=" + totalprice +
-                ", depositpaid=" + depositpaid +
-                ", BookingdatesObject=" + BookingdatesObject +
-                ", additionalneeds='" + additionalneeds + '\'' +
-                '}';
     }
 }

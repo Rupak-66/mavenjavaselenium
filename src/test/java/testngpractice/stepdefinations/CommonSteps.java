@@ -9,9 +9,9 @@ import testngpractice.utils.Staticinstances;
 public class CommonSteps {
 
     @BeforeAll
-    public static void setup() {
-        Staticinstances.sbc = Browserclass.getInstanceOfSingletonBrowserClass();
-    }
+   public static void setup() {
+//        Staticinstances.sbc = Browserclass.getInstanceOfSingletonBrowserClass();
+   }
 
     @Before
     public static void beforetest() {
