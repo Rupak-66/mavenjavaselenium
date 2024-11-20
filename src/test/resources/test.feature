@@ -22,3 +22,10 @@ Feature: All test cases for positive & negative scenarios
       |standard_user|secret_sauce|
       |visual_user|secret_sauce|
 
+    @positivecred
+  Scenario: Testing with positive credentials
+    Given User Enters positive username
+    When User enters postive password
+    And user clicks on Login button
+    Then user should be able to see dashboard
+

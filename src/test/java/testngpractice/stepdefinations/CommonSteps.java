@@ -10,7 +10,7 @@ public class CommonSteps {
 
     @BeforeAll
    public static void setup() {
-//        Staticinstances.sbc = Browserclass.getInstanceOfSingletonBrowserClass();
+        Staticinstances.sbc = Browserclass.getInstanceOfSingletonBrowserClass();
    }
 
     @Before
